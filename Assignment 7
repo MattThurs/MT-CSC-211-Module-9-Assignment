@@ -1,0 +1,124 @@
+// Base class
+class Vehicle {
+    private String name;
+
+    public Vehicle(String name) {
+        this.name = name;
+    }
+
+    public void start() {
+        System.out.println(name + " is starting.");
+    }
+
+    public void stop() {
+        System.out.println(name + " is stopping.");
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+// Engine class (Composition)
+class Engine {
+    private String type;
+
+    public Engine(String type) {
+        this.type = type;
+    }
+
+    public void ignite() {
+        System.out.println("Engine (" + type + ") is igniting.");
+    }
+
+    public void shutdown() {
+        System.out.println("Engine (" + type + ") is shutting down.");
+    }
+
+    public String getType() {
+        return type;
+    }
+}
+
+// Car class (Inheritance + Composition)
+class Car extends Vehicle {
+    private Engine engine;
+
+    public Car(String name, Engine engine) {
+        super(name);
+        this.engine = engine;
+    }
+
+    @Override
+    public void start() {
+        engine.ignite();
+        System.out.println(getName() + " (Car) is starting with " + engine.getType() + " engine.");
+    }
+
+    @Override
+    public void stop() {
+        engine.shutdown();
+        System.out.println(getName() + " (Car) is stopping.");
+    }
+}
+
+// Bicycle class (Inheritance)
+class Bicycle extends Vehicle {
+    public Bicycle(String name) {
+        super(name);
+    }
+
+    @Override
+    public void start() {
+        System.out.println(getName() + " (Bicycle) is starting by pedaling.");
+    }
+
+    @Override
+    public void stop() {
+        System.out.println(getName() + " (Bicycle) is stopping by braking.");
+    }
+}
+
+// ElectricCar class (Inheritance + Composition)
+class ElectricCar extends Vehicle {
+    private Engine electricEngine;
+
+    public ElectricCar(String name, Engine electricEngine) {
+        super(name);
+        this.electricEngine = electricEngine;
+    }
+
+    @Override
+    public void start() {
+        electricEngine.ignite();
+        System.out.println(getName() + " (ElectricCar) is starting with " + electricEngine.getType() + " engine.");
+    }
+
+    @Override
+    public void stop() {
+        electricEngine.shutdown();
+        System.out.println(getName() + " (ElectricCar) is stopping.");
+    }
+}
+
+// Main class to demonstrate the program
+public class TransportationSystem {
+    public static void main(String[] args) {
+        // Creating instances
+        Engine gasEngine = new Engine("Gasoline");
+        Engine electricEngine = new Engine("Electric");
+
+        Vehicle car = new Car("Toyota", gasEngine);
+        Vehicle bicycle = new Bicycle("Mountain Bike");
+        Vehicle electricCar = new ElectricCar("Tesla", electricEngine);
+
+        // Using polymorphism
+        Vehicle[] vehicles = { car, bicycle, electricCar };
+
+        for (Vehicle v : vehicles) {
+            v.start();
+            v.stop();
+            System.out.println();
+        }
+    }
+}
